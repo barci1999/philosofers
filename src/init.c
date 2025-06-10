@@ -6,7 +6,7 @@
 /*   By: pablalva <pablalva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 20:44:58 by pablalva          #+#    #+#             */
-/*   Updated: 2025/06/09 21:50:01 by pablalva         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:42:49 by pablalva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ enum_type	init_meal(t_general *program)
 	{
 		if (pthread_mutex_init(&philo[i]->meal_lock, NULL) != 0)
 		{
-			free_mutex_array(philo, i);
-			free_mutex_array(*program->philos, program->total_philos);
+			free_mutex_array(&philo[i]->meal_lock, i);
+			//free_mutex_array(*program->philos, program->total_philos);
+			/* liberar el array e filo que esta en el programa */
 			return (KO);
 		}
 		i++;

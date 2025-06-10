@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   rutines.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pablalva <pablalva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 14:33:57 by pablalva          #+#    #+#             */
-/*   Updated: 2025/06/10 16:02:11 by pablalva         ###   ########.fr       */
+/*   Created: 2025/06/10 16:02:18 by pablalva          #+#    #+#             */
+/*   Updated: 2025/06/10 16:53:47 by pablalva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-int main(int argc,char **argv)
+enum_type create_pthreads(t_general *program)
 {
-	t_general program;
-	memset(&program,0,sizeof(program));
-	if(parse_arg_and_init_vars(argc,argv,&program) != OK)
-		exit(2);
-	if(init_rutines(program) !=  OK);
-		exit(2);
+	t_philo **philos;
+	int i;
+	i = 0;
+	assig_start_time(program);
+	if(pthread_create(&program->checker,NULL,checker_rutine,program) != 0)
+	{
+		
+	}
 	
-	return(0);
-	
+}
+
+
+enum_type init_rutines(t_general *program)
+{
+	if(create_pthreads(program) != OK)
+	{
+
+	}
+	if()
+	{}
 }

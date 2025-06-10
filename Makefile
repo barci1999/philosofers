@@ -6,6 +6,8 @@ SRCS =	src/main.c\
 		src/utils_libft.c\
 		src/utils.c\
 		src/init.c\
+		src/parse.c\
+		src/init_2.c\
 
 OBJS = $(SRCS:.c=.o)
 
