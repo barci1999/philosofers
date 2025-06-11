@@ -6,7 +6,7 @@
 /*   By: pablalva <pablalva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:22:28 by pablalva          #+#    #+#             */
-/*   Updated: 2025/06/10 17:02:17 by pablalva         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:04:19 by pablalva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-typedef enum enum_type
+typedef enum t_enum_type
 {
 	OK,
 	KO,
-}					enum_type;
+}					t_enum_type;
 
 typedef struct s_philo
 {
@@ -81,28 +81,41 @@ typedef struct s_general
 
 }					t_general;
 
-/* if last_meal_philo >= time_die = filo dead */
-
-/*    utils  */
 long				ft_atol(char *str);
-enum_type			ft_str_isdigit(char *str);
-enum_type			check_arg(char **argv);
+t_enum_type			ft_str_isdigit(char *str);
+t_enum_type			check_arg(char **argv);
 
 int					main(int argc, char **argv);
-enum_type			parse_arg_and_init_vars(int argc, char **argv,
+t_enum_type			parse_arg_and_init_vars(int argc, char **argv,
 						t_general *program);
-enum_type			init_program_vars(t_general *program, char **argv);
-enum_type			init_forks(t_general *program);
+t_enum_type			init_program_vars(t_general *program, char **argv);
+t_enum_type			init_forks(t_general *program);
 void				*ft_calloc(size_t count, size_t size);
 void				free_mutex_array(pthread_mutex_t *array, int len);
-enum_type			init_phylo_vars(t_general *program);
-enum_type			init_meal(t_general *program);
-enum_type	assig_forks(t_general *program);
-uint64_t	miliseconds_time(void);
-void assig_start_time(t_general *program);
-void	print_message(char *str, t_philo *philo);
-
-
-/*   rutines   */
-void checker_rutine(void *param);
+t_enum_type			init_phylo_vars(t_general *program);
+t_enum_type			init_meal(t_general *program);
+t_enum_type			assig_forks(t_general *program);
+uint64_t			miliseconds_time(void);
+void				assig_start_time(t_general *program);
+void				print_message(char *str, t_philo *philo);
+void				*checker_rutine(void *param);
+void				*philo_rutine(void *param);
+void				sleep_time(t_philo *philo);
+void				think(t_philo *philo);
+t_enum_type			checker_aprove(t_philo *philo);
+void				eat(t_philo *philo);
+t_enum_type			take_first_fork(t_philo *philo,
+						pthread_mutex_t *first_fork);
+t_enum_type			take_second_fork(t_philo *philo,
+						pthread_mutex_t *first_fork,
+						pthread_mutex_t *second_fork);
+void				eat_time(t_philo *philo, uint64_t current_time);
+t_enum_type			eating_time(t_philo *philo, pthread_mutex_t *first_fork,
+						pthread_mutex_t *second_fork);
+t_enum_type			init_rutines(t_general *program);
+t_enum_type			philo_death(t_general *program);
+t_enum_type			all_philo_eated(t_general *program);
+t_enum_type			init_philos_array(t_general *program);
+void				free_philo_array(t_general *program);
+void				free_all_resources(t_general *program);
 #endif

@@ -6,13 +6,13 @@
 /*   By: pablalva <pablalva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 20:44:58 by pablalva          #+#    #+#             */
-/*   Updated: 2025/06/10 12:42:49 by pablalva         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:03:01 by pablalva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-enum_type	init_program_vars(t_general *program, char **argv)
+t_enum_type	init_program_vars(t_general *program, char **argv)
 {
 	program->total_philos = ft_atol(argv[1]);
 	program->time_to_die = ft_atol(argv[2]);
@@ -25,16 +25,21 @@ enum_type	init_program_vars(t_general *program, char **argv)
 	if (pthread_mutex_init(&program->dead_lock, NULL) != 0)
 		return (KO);
 	if (pthread_mutex_init(&program->eated_lock, NULL) != 0)
-		return (KO);
+		return (pthread_mutex_destroy(&program->dead_lock), KO);
 	if (pthread_mutex_init(&program->write_lock, NULL) != 0)
-		return (KO);
+		return (pthread_mutex_destroy(&program->eated_lock),
+			pthread_mutex_destroy(&program->dead_lock), KO);
 	if (init_forks(program) != OK)
+	{
+		pthread_mutex_destroy(&program->dead_lock);
+		pthread_mutex_destroy(&program->write_lock);
+		pthread_mutex_destroy(&program->eated_lock);
 		return (KO);
-	if (init_meal(program) != OK)
-		return(KO);
+	}
 	return (OK);
 }
-enum_type	init_forks(t_general *program)
+
+t_enum_type	init_forks(t_general *program)
 {
 	int	i;
 	int	size;
@@ -55,7 +60,8 @@ enum_type	init_forks(t_general *program)
 	}
 	return (OK);
 }
-enum_type	init_meal(t_general *program)
+
+t_enum_type	init_meal(t_general *program)
 {
 	int		i;
 	t_philo	**philo;
@@ -66,16 +72,16 @@ enum_type	init_meal(t_general *program)
 	{
 		if (pthread_mutex_init(&philo[i]->meal_lock, NULL) != 0)
 		{
-			free_mutex_array(&philo[i]->meal_lock, i);
-			//free_mutex_array(*program->philos, program->total_philos);
-			/* liberar el array e filo que esta en el programa */
+			while (--i > 0)
+				pthread_mutex_destroy(&philo[i]->meal_lock);
 			return (KO);
 		}
 		i++;
 	}
 	return (OK);
 }
-enum_type	init_phylo_vars(t_general *program)
+
+t_enum_type	init_phylo_vars(t_general *program)
 {
 	int	i;
 
@@ -83,12 +89,12 @@ enum_type	init_phylo_vars(t_general *program)
 	while (i < program->total_philos)
 	{
 		program->philos[i]->philo_id = i + 1;
-		program->philos[i]->dead = false;
+		program->philos[i]->dead = &program->philo_dead;
 		program->philos[i]->total_philos = program->total_philos;
 		program->philos[i]->total_eats = program->total_eats;
 		program->philos[i]->nbr_eaten = 0;
 		program->philos[i]->last_meal_time = 0;
-		program->philos[i]->eated = false;
+		program->philos[i]->eated = &program->philo_eated;
 		program->philos[i]->time_to_die = program->time_to_die;
 		program->philos[i]->time_to_eat = program->time_to_eat;
 		program->philos[i]->time_to_sleep = program->time_to_sleep;

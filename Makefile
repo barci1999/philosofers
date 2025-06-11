@@ -1,13 +1,18 @@
 NAME = philosofers
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -g 
 
 SRCS =	src/main.c\
-		src/utils_libft.c\
-		src/utils.c\
+		src/checker_rutine.c\
+		src/eat_philo_rutine.c\
+		src/init_2.c\
 		src/init.c\
 		src/parse.c\
-		src/init_2.c\
+		src/philos_rutines.c\
+		src/rutines.c\
+		src/utils_libft.c\
+		src/utils.c\
+		src/utils_free.c\
 
 OBJS = $(SRCS:.c=.o)
 

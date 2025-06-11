@@ -6,19 +6,19 @@
 /*   By: pablalva <pablalva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:39:45 by pablalva          #+#    #+#             */
-/*   Updated: 2025/06/09 21:45:32 by pablalva         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:03:01 by pablalva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-enum_type	ft_str_isdigit(char *str)
+t_enum_type	ft_str_isdigit(char *str)
 {
 	if (str[0] == '-')
 		str++;
 	while (*str)
 	{
-		if (!(*str >= 0 && *str <= 9))
+		if (!(*str >= '0' && *str <= '9'))
 			return (KO);
 		str++;
 	}
@@ -70,13 +70,14 @@ long	ft_atol(char *str)
 	}
 	return (res * sign);
 }
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*array;
 
 	if (size != 0 && count > SIZE_MAX / size)
 		return (NULL);
-	array = (char *) malloc(count * size);
+	array = (char *)malloc(count * size);
 	if (array == NULL)
 		return (NULL);
 	memset(array, 0, (count * size));
